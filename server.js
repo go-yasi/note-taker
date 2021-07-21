@@ -12,11 +12,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
 
-// Route to send user to index.html
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, '.public/index.html')));
-// Route to send user to notes.html
-app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, '.public/notes.html')));
-
 // Use API routes
 app.use('/api',apiRoutes);
 
