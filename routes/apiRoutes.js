@@ -3,16 +3,16 @@ const fs = require("fs");
 const uniqid = require('uniqid');
 const path = require('path');
 
-let {notes} = require('../db/db.json')
+let { notes } = require('../db/db.json')
 
-function saveNote(body, notesArray) {
-    const newNote = body;
-    notesArray.push(newNote);
+function createNote(body, notesArray) {
+    const note = body;
+    notesArray.push(note);
     fs.writeFileSync(
         path.join(__dirname, "../db/db.json"),
         JSON.stringify({ notes: notesArray }, null, 2)
     );
-    return newNote;
+    return note;
 }
 
 router.get('/notes', (req, res) => {
@@ -21,8 +21,8 @@ router.get('/notes', (req, res) => {
 
 router.post('/notes', (req, res) => {
     req.body.id = uniqid();
-    const newNote = saveNote(req.body, notes);
-    res.json(newNote)
+    const note = createNote(req.body, notes);
+    res.json(note)
 });
 
 module.exports = router;
