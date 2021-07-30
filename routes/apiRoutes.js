@@ -1,27 +1,27 @@
 const router = require('express').Router();
-const fs = require("fs");
-const uniqid = require('uniqid');
-const path = require('path');
 
-let { notes } = require('../db/db.json')
+const uniqid = require('uniqid');
+
+let { notes } = require('../db/db.json');
+let notesArray = [];
 
 function createNote(body, notesArray) {
     const note = body;
     notesArray.push(note);
     fs.writeFileSync(
-        path.join(__dirname, "../db/db.json"),
-        JSON.stringify({ notes: notesArray }, null, 2)
+      path.join(__dirname, "../db/db.json"),
+      JSON.stringify({ notes: notesArray }, null, 2)
     );
     return note;
 }
 
-router.get('/notes', (req, res) => {
-    res.json(notes);
-});
+// router.get("/api/notes", (req, res) => {
+//     res.json(notes);
+// });
 
-router.post('/notes', (req, res) => {
+router.post("/api/notes", (req, res) => {
     req.body.id = uniqid();
-    const note = createNote(req.body, notes);
+    const note = createNote(req.body , notes);
     res.json(note)
 });
 
