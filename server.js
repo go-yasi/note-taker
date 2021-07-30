@@ -46,5 +46,16 @@ app.post('/api/notes', (req, res) => {
     });
 });
 
+//  Route to delete a note
+app.delete('/api/notes/:id', (req, res) => {
+    var notes;
+    fs.readFile('db/db.json', 'utf8', (error, data) => {
+        error ? console.error(error) : notes = JSON.parse(data);
+        notes.splice(req.params.id, 1);
+        fs.writeFile('db/db.json', JSON.stringify(notes), (err) => 
+        err ? console.error(err) : res.json(notes));
+    });
+});
+
 // Spin up server
 app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`));
