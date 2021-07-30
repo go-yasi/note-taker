@@ -25,8 +25,13 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public/index.html'
 app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, 'public/notes.html')));
 
 
-fs.appendFile.get("/api/notes", (req, res) => {
-    res.json(notes);
+app.get("/api/notes", (req, res) => {
+    var notes;
+    fs.readFile('db/db.json', 'utf8', (error, data) => {
+        error ? console.error(error) : notes = JSON.parse(data);
+        console.log(notes);
+        res.json(notes);
+    });
 });
 
 // Spin up server
