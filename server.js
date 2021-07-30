@@ -24,13 +24,25 @@ app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'public/index.html'
 // Route to send user to notes.html
 app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, 'public/notes.html')));
 
-
-app.get("/api/notes", (req, res) => {
+// Route to get notes
+app.get('/api/notes', (req, res) => {
     var notes;
     fs.readFile('db/db.json', 'utf8', (error, data) => {
         error ? console.error(error) : notes = JSON.parse(data);
         console.log(notes);
         res.json(notes);
+    });
+});
+
+// Route to post new note
+app.post('/api/notes', (req, res) => {
+    var notes;
+    var note = req.body;
+    fs.readFile('db/db.json', 'utf8', (error, data) => {
+        error ? console.error(error) : notes =JSON.parse(data);
+        notes.push(note);
+        fs.writeFile('db/db.json', JSON.stringify(notes), (err) => 
+        err ? console.error(err) : res.json(notes));
     });
 });
 
